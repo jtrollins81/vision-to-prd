@@ -1,22 +1,12 @@
-# Vision → PRD Generator (Shovel 1)
+# Vision-to-PRD
 
-This project takes a plain-language product idea from a non-technical founder 
-and generates a structured Product Requirements Document (PRD).
+Turn raw project vision into structured **Project Requirements Documents (PRDs)** with AI assistance.
 
-## Features
-- Intake form for idea, users, goals, features, constraints.
-- AI-generated PRD in markdown format (coming soon).
-- Download options (Markdown/PDF) (coming soon).
-- Designed as the first "shovel" toward the full StoryTeller project operator.
+---
 
-## Tech Stack
-- FastAPI (backend API)
-- Pydantic (validation)
-- Pytest (testing)
+## 🚀 Setup
 
-## Getting Started
-
-### 1. Clone the repo
-```bash
-git clone <your_repo_url>
-cd vision-to-prd
+1. **Clone the repo & enter folder**
+   ```bash
+   git clone <your-repo-url>
+   cd vision-to-prd
