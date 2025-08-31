@@ -1,11 +1,19 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
-app = FastAPI(
-    title="Vision → PRD Generator",
-    description="Turns plain-language ideas into structured Product Requirements Documents",
-    version="0.1.0"
-)
+app = FastAPI()
 
-@app.get("/")
-def root():
-    return {"message": "Vision → PRD Generator API is live"}
+class VisionInput(BaseModel):
+    vision: str
+
+@app.post("/generate_prd")
+def generate_prd(input_data: VisionInput):
+    """
+    Placeholder endpoint.
+    Takes a 'vision' string and returns a dummy PRD response.
+    """
+    return {
+        "vision": input_data.vision,
+        "prd": "Project Requirements Document (placeholder)",
+    }
+
