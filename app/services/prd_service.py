@@ -1,22 +1,79 @@
 from app.models import PRDRequest
+import os
+
+# Optional: pip install openai
+try:
+    import openai
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
+
+# Load API key from environment variable
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# Prompt template for PRD generation
+PRD_PROMPT_TEMPLATE = """
+You are a product manager. Generate a detailed Product Requirements Document (PRD)
+based on the following input:
+
+Vision:
+{vision}
+
+Goals:
+{goals}
+
+Target Audience:
+{target_audience}
+
+Structure the PRD with clear headings:
+- Vision
+- Goals
+- Target Audience
+- Core Features
+- Nice-to-have Features
+- Success Metrics
+- Risks / Dependencies
+"""
 
 def generate_prd(request: PRDRequest) -> str:
     """
-    Placeholder PRD generator.
-    Later this will call AI, but for now it just formats input.
+    Generate a PRD using OpenAI API if available, otherwise return a stub.
     """
-    return f"""
-    # Product Requirements Document
+    prompt = PRD_PROMPT_TEMPLATE.format(
+        vision=request.vision,
+        goals=request.goals,
+        target_audience=request.target_audience
+    )
 
-    ## Vision
-    {request.vision}
+    # If OpenAI not installed or API key missing, return stub
+    if not OPENAI_AVAILABLE or not OPENAI_API_KEY:
+        return f"""
+        # Product Requirements Document (Stub)
 
-    ## Goals
-    {request.goals}
+        ## Vision
+        {request.vision}
 
-    ## Target Audience
-    {request.target_audience}
+        ## Goals
+        {request.goals}
 
-    ---
-    (This is a placeholder PRD. AI generation coming soon!)
-    """
+        ## Target Audience
+        {request.target_audience}
+
+        ---
+        (AI not configured. Set OPENAI_API_KEY and install openai to generate real PRDs.)
+        """
+
+    # Call OpenAI GPT model
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        api_key=OPENAI_API_KEY,
+        messages=[
+            {"role": "system", "content": "You are a senior product manager."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.7,
+        max_tokens=1000
+    )
+
+    prd_text = response.choices[0].message.content
+    return prd_text
