@@ -9,7 +9,7 @@ except ImportError:
     OPENAI_AVAILABLE = False
 
 # Load API key from environment variable
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv("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")
 
 # Prompt template for PRD generation
 PRD_PROMPT_TEMPLATE = """
